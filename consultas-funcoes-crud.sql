@@ -1,16 +1,17 @@
+/* VISUALIZANDO TODAS COLUNAS COM * */
 select * from musicas;
+
+/* VISUALIZANDO COLUNAS ESPECIFICAS */
+select id, composicao, tempo from musicas;
 
 /* TEMPO MENOR QUE 199 */
 select * from musicas where tempo < 199;
 
-/* TEMPO MENOR QUE 199 */
+/* TEMPO MAIOR QUE 199 */
 select * from musicas where tempo > 199;
 
 /* TEMPO IGUAL A 199 */
 select * from musicas where tempo = 199;
-
-/* TEMPO MAIOR A 199 */
-select * from musicas where tempo > 199;
 
 /* TEMPO MAIOR QUE 199 E TEMPO MENOR QUE 399 */
 select * from musicas where tempo >= 199 AND tempo <= 399;
@@ -33,7 +34,7 @@ order by tempo asc;
 --do critério (onde começa a próxima página)
 
 /* paginacao com limite de 10 registros para serem exibidos
-   neste caso exibirá os registros que possuírem os 10 menores valores baseando-se pela coluna
+   neste caso exibirá os registros que possuírem os 10 primeiros valores baseando-se pela coluna
    de chave primária (que geralmente é a coluna ID)
  */
 select * from musicas;
@@ -63,10 +64,13 @@ select * from musicas order by id asc;
 */
 select * from musicas order by id desc;
 
-select * from musicas order by id asc;
-
 /* LIKE - aplica filtragem baseado em um caracter ou conjunto de caracteres */
 -- Podemos aplicar o LIKE com critério específico conforme ilustrado abaixo
+
+/* baseando-se em um unico caracter */
+select * from musicas where composicao like 'V';
+
+/* baseando-se em um conjunto de caracteres */
 select * from musicas where composicao like 'Violin Sonata No 1 in G minor';
 
 -- Podemos aplicar o LIKE com caracter coringa '%' como nos casos abaixo
@@ -115,7 +119,7 @@ select * from musicas where composicao ilike '%sonata in a majo_';
 select count(*) from usuarios where idade >= 18;
 
 -- atribuíndo alias ao resultado obtido da quantidade total de registros filtrados
-select count(*) as "quantidadeUsuarios" from usuarios where idade >= 18;
+select count(*) as "quantidade de Usuários" from usuarios where idade >= 18;
 
 -- Concatenando duas colunas e aplicando alias, no caso abaixo estamos concatenando
 -- as colunas nome e email de modo que teremos como resultado, por exemplo:
@@ -138,12 +142,12 @@ select round(avg(idade), 2) from usuarios;
 
 -- MIN
 -- retorna o valor mínimo do conjunto de valores de uma coluna especificada
-
 -- abaixo estamos buscando a menor idade existente na tabela de usuários
 select min(idade) from usuarios;
+--select * from usuarios where idade = 13;
 
 -- quando aplicamos o MIN em uma coluna que não possui valores numéricos
---ocorrerá aplicação da ordenação ASC com base na coluna aplicada como critério no MIN
+-- ocorrerá aplicação da ordenação ASC com base na coluna aplicada como critério no MIN
 
 -- aplicando MIN em coluna que possui varchar | texto
 select min(nome) from usuarios;
@@ -157,9 +161,9 @@ select cadastro from usuarios order by cadastro asc limit 1;
 
 -- MAX
 -- retorna o valor máximo do conjunto de valores de uma coluna especificada
-
--- abaixo estamos buscando a menor idade na tabela de usuários
+-- abaixo estamos buscando a maior idade na tabela de usuários
 select max(idade) from usuarios;
+--select * from usuarios where idade = 80;
 
 -- quando aplicamos o MAX em uma coluna que não possui valores numéricos
 --ocorrerá aplicação da ordenação DESC com base na coluna aplicada como critério no MAX
@@ -177,7 +181,6 @@ select cadastro from usuarios order by cadastro desc limit 1;
 
 -- SUM
 -- retorna a soma de um conjunto de valores de uma coluna especificada
-
 -- abaixo aplicamos a soma entre as idades da tabela usuários
 select sum(idade) from usuarios;
 
@@ -194,8 +197,8 @@ sum(estoque) as "somaTotalEstoque" from farmacia group by categoria;
 
 -- CRUD SQL
 
--- Criação da tabela produtos
-create table if not exists produtos (
+-- Criação da tabela produtos_teste
+create table if not exists produtos_teste (
 	id serial primary key,
   	nome text,
   	descricao text,
@@ -204,18 +207,18 @@ create table if not exists produtos (
 );
 
 /* INSERT INTO */
-insert into produtos (nome, descricao, preco, categoria) values ('Caderno', 'Linda Camisa', 5990, 'Roupas');
-insert into produtos (nome, preco, categoria) values ('Caderno', 2000, 'Material escolar');
-insert into produtos (nome, descricao, preco, categoria) values ('Calça Jeans', NULL, 12900, 'Roupas'),('Bermuda', 'Bermuda longa preta', 12900, 'Roupas');
+insert into produtos_teste (nome, descricao, preco, categoria) values ('Caderno', 'Lindo caderno', 5990, 'Papelaria');
+insert into produtos_teste (nome, preco, categoria) values ('Tesoura', 2000, 'Material escolar');
+insert into produtos_teste (nome, descricao, preco, categoria) values ('Calça Jeans', NULL, 12900, 'Roupas'),('Bermuda', 'Bermuda longa preta', 12900, 'Roupas');
 
 /* UPDATE */
-update produtos set nome = 'Caderno de 10 materias' where id = 3;
-update produtos set categoria = 'Calças', preco = 12950 where descricao is null;
-update produtos set nome = 'Caderno'; -- NUNCA FAÇA ISSO (UPDATE SEM WHERE)
+update produtos_teste set nome = 'Caderno de 10 materias' where id = 3;
+update produtos_teste set categoria = 'Calças', preco = 12950 where descricao is null;
+update produtos_teste set nome = 'Caderno'; -- NUNCA FAÇA ISSO (UPDATE SEM WHERE)
 
 /* DELETE */
-delete from produtos where id = 1;
-delete from produtos where descricao is null;
-delete from produtos; -- NUNCA FAÇA ISSO 2 (DELETE SEM WHERE)
+delete from produtos_teste where id = 1;
+delete from produtos_teste where descricao is null;
+delete from produtos_teste; -- NUNCA FAÇA ISSO 2 (DELETE SEM WHERE)
 
-select * from produtos;
+select * from produtos_teste;
